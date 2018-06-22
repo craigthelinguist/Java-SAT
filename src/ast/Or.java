@@ -13,11 +13,15 @@ public class Or implements Proposition {
     
     @Override
     public Proposition solve(Environment env) {
-        if (left.solve(env).equals(Constant.True()) || right.solve(env).equals(Constant.True())) {
-            return Constant.True();
-        } else {
-            return Constant.False();
-        }
+    	Proposition left = this.left.solve(env);
+    	Proposition right = this.right.solve(env);
+    	if (left.equals(Constant.True()) || right.equals(Constant.True())) {
+    		return Constant.True();
+    	} else if (left.equals(Constant.False()) && right.equals(Constant.False())) {
+    		return Constant.False();
+    	} else {
+    		return new Or(left, right);
+    	}
     }
 
     @Override

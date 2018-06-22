@@ -14,6 +14,10 @@ public class Environment {
         this.variables = new HashMap<>();
     }
 
+    public boolean exists(Variable var) {
+    	return variables.containsKey(var.toString());
+    }
+    
     public boolean exists (String name) {
         return variables.containsKey(name);
     }
@@ -30,6 +34,10 @@ public class Environment {
         this.variables.put(name, prop);
     }
 
+    public void deleteVar(Variable var) {
+    	variables.remove(var.toString());
+    }
+    
     public void deleteVar (String name) {
         variables.remove(name);
     }

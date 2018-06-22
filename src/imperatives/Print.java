@@ -17,7 +17,11 @@ public class Print implements Imperative {
     	// TODO: refactor using an observer
     	if (prop instanceof Variable) {
     		Variable var = (Variable) prop;
-    		return env.getVar(var).toString();
+    		if (!env.exists(var)) {
+    			return "Variable `" + var.toString() + "` is undefined";
+    		} else {
+    			return env.getVar(var).toString();
+    		}
     	} else {
     		return this.prop.toString();
     	}

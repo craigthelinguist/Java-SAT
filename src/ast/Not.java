@@ -12,16 +12,14 @@ public class Not implements Proposition {
     
     @Override
     public Proposition solve(Environment env) {
-        Proposition a2 = this.prop.solve(env);
-        if (a2 instanceof Constant) {
-            if (a2.equals(Constant.True())) {
-                return Constant.False();
-            } else {
-                return Constant.True();
-            }
-        } else {
-            return new Not(a2);
-        }
+    	Proposition prop = this.prop.solve(env);
+    	if (prop.equals(Constant.True())) {
+    		return Constant.False();
+    	} else if (prop.equals(Constant.False())) {
+    		return Constant.True();
+    	} else {
+    		return new Not(prop);
+    	}
     }
 
     @Override

@@ -19,6 +19,7 @@ import ast.Proposition;
 import ast.Variable;
 import ast.Xor;
 import exceptions.ParsingException;
+import imperatives.Forget;
 import imperatives.Imperative;
 import imperatives.Let;
 import imperatives.Print;
@@ -50,12 +51,20 @@ public class Parser {
     }
 
     public Imperative parseImperative() throws ParsingException {
-        if (scan.hasNext("solve")) return parseSolve();
-        else if (scan.hasNext("print")) return parsePrint();
+        if (scan.hasNext("forget")) return parseForget();
         else if (scan.hasNext("let")) return parseLet();
+        else if (scan.hasNext("print")) return parsePrint();
+        else if (scan.hasNext("solve")) return parseSolve();
         else return new Print(parseProposition());
     }
 
+    private Forget parseForget() throws ParsingException {
+    	if (!gobble("forget"))
+    		fail("Forget imperative must start with \"forget\".");
+    	String name = parseIdentifier();
+    	return new Forget(name);
+    }
+    
     private Solve parseSolve() throws ParsingException {
         if (!gobble("solve"))
             fail("Solve imperative must start with \"solve\".");

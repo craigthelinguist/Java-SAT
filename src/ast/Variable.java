@@ -15,11 +15,15 @@ public class Variable implements Proposition {
     
     @Override
     public Proposition solve(Environment env) {
-        if (env.exists(this.name)) {
-            return env.getVar(this.name).solve(env);
-        } else {
-            return this;
-        }
+    	Proposition prop = this;
+    	while (prop instanceof Variable && env.exists((Variable)prop)) {
+    		prop = env.getVar((Variable)prop);
+    	}
+    	if (prop == this) {
+    		return prop;
+    	} else {
+    		return prop.solve(env);
+    	}
     }
 
     @Override

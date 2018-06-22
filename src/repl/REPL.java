@@ -8,9 +8,11 @@ import semantics.Environment;
 public class REPL {
     
     private static final String HELP =
-            "Commands:\nlet VARIABLE = VALUE\n"
-            + "solve PROPOSITION\n"
-            + "print PROPOSITION\n";
+            "Commands:\n"
+    		+ "forget VARIABLE\n"
+            + "let VARIABLE = VALUE\n"
+            + "print PROPOSITION\n"
+            + "solve PROPOSITION\n";
 
     public static void main (String[] args) {
         Scanner scan = new Scanner(System.in);

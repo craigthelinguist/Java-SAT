@@ -13,11 +13,7 @@ public class Imply implements Proposition {
     
     @Override
     public Proposition solve(Environment env) {
-        if (this.left.solve(env).equals(Constant.False()) || this.right.solve(env).equals(Constant.True())) {
-            return Constant.True();
-        } else {
-            return Constant.False();
-        }
+    	return new Or(new Not(this.left), this.right).solve(env);
     }
 
     @Override

@@ -13,11 +13,21 @@ public class Equals implements Proposition {
     
     @Override
     public Proposition solve(Environment env) {
-        if (left.solve(env).equals(right.solve(env))) {
-            return Constant.True();
-        } else {
-            return Constant.False();
-        }
+    	Proposition left = this.left.solve(env);
+    	Proposition right = this.right.solve(env);
+    	if (left.equals(Constant.True()) && right.equals(Constant.True())) {
+    		return Constant.True();
+    	} else if (left.equals(Constant.False()) && right.equals(Constant.False())) {
+    		return Constant.True();
+    	} else if (left.equals(right)) {
+    		return Constant.True();
+    	} else if (left.equals(Constant.False()) && right.equals(Constant.True())) {
+    		return Constant.False();
+    	} else if (left.equals(Constant.True()) && right.equals(Constant.False())) {
+    		return Constant.False();
+    	} else {
+    		return new Equals(left, right);
+    	}
     }
 
     @Override
