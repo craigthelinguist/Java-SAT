@@ -45,5 +45,10 @@ public class Constant implements Proposition {
             return c2.value == this.value;
         }
     }
+
+	@Override
+	public Proposition negationNormalForm(Environment env) {
+		return this;
+	}
     
 }

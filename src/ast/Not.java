@@ -31,5 +31,36 @@ public class Not implements Proposition {
     public String toString() {
         return "(not " + this.prop + ")";
     }
+
+	@Override
+	public Proposition negationNormalForm(Environment env) {
+		
+		Proposition prop = this.prop.negationNormalForm(env);
+		
+		// Double negation.
+		if (prop instanceof Not) {
+			Not not = (Not) prop;
+			return not.prop.negationNormalForm(env);
+		}
+		
+		// DeMorgan's law 1.
+		if (prop instanceof Or) {
+			Or or = (Or) prop;
+			Proposition left = new Not(or.getLeft()).negationNormalForm(env);
+			Proposition right = new Not(or.getRight()).negationNormalForm(env);
+			return new And(left, right).negationNormalForm(env);
+		}
+		
+		// DeMorgan's law 2.
+		if (prop instanceof And) {
+			And and = (And) prop;
+			Proposition left = new Not(and.getLeft()).negationNormalForm(env);
+			Proposition right = new Not(and.getRight()).negationNormalForm(env);
+			return new Or(left, right).negationNormalForm(env);
+		}
+		
+		return new Not(prop);
+		
+	}
    
 }

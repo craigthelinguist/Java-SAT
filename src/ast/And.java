@@ -33,5 +33,20 @@ public class And implements Proposition {
     public String toString() {
         return "(and " + this.left + " " + this.right + ")";
     }
+
+	@Override
+	public Proposition negationNormalForm(Environment env) {
+		Proposition left = this.left.negationNormalForm(env);
+		Proposition right = this.right.negationNormalForm(env);
+		return new And(left, right).solve(env);
+	}
+
+	public Proposition getLeft() {
+		return this.left;
+	}
     
+	public Proposition getRight() {
+		return this.right;
+	}
+	
 }

@@ -36,4 +36,13 @@ public class Variable implements Proposition {
         return this.name;
     }
 
+	@Override
+	public Proposition negationNormalForm(Environment env) {
+		if (env.exists(this)) {
+			return env.getVar(this).negationNormalForm(env);
+		} else {
+			return this;
+		}
+	}
+
 }

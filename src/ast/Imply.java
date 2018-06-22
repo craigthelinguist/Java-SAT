@@ -13,7 +13,7 @@ public class Imply implements Proposition {
     
     @Override
     public Proposition solve(Environment env) {
-    	return new Or(new Not(this.left), this.right).solve(env);
+    	return this.asOr().solve(env);
     }
 
     @Override
@@ -25,5 +25,14 @@ public class Imply implements Proposition {
     public String toString() {
         return "(imply " + this.left + " " + this.right + ")";
     }
+
+	@Override
+	public Proposition negationNormalForm(Environment env) {
+		return this.asOr().negationNormalForm(env);
+	}
+	
+	private Proposition asOr() {
+		return new Or(new Not(this.left), this.right);
+	}
 
 }

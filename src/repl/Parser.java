@@ -2,6 +2,9 @@ package repl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -22,6 +25,7 @@ import exceptions.ParsingException;
 import imperatives.Forget;
 import imperatives.Imperative;
 import imperatives.Let;
+import imperatives.NegationNormalForm;
 import imperatives.Print;
 import imperatives.Solve;
 
@@ -53,12 +57,20 @@ public class Parser {
     public Imperative parseImperative() throws ParsingException {
         if (scan.hasNext("forget")) return parseForget();
         else if (scan.hasNext("let")) return parseLet();
+        else if (scan.hasNext("nnf")) return parseNNF();
         else if (scan.hasNext("print")) return parsePrint();
         else if (scan.hasNext("solve")) return parseSolve();
         else return new Print(parseProposition());
     }
 
-    private Forget parseForget() throws ParsingException {
+    private Imperative parseNNF() throws ParsingException {
+    	if (!gobble("nnf"))
+    		fail("NegationNormalForm imperative must start with \"nnf\".");
+    	Proposition prop = parseProposition();
+    	return new NegationNormalForm(prop);
+	}
+
+	private Forget parseForget() throws ParsingException {
     	if (!gobble("forget"))
     		fail("Forget imperative must start with \"forget\".");
     	String name = parseIdentifier();
@@ -110,10 +122,11 @@ public class Parser {
         for (String token : tokens) {
             if (Utils.IsOperator(token)) {
                 int opArity = arity.get(token);
-                Proposition[] args = new Proposition[arity.get(token)];
+                List<Proposition> args = new ArrayList<Proposition>(arity.get(token));
                 for (int i = 0; i < opArity; i++) {
-                    args[i] = stack.pop();
+                	args.add(stack.pop());
                 }
+                Collections.reverse(args); // we're in postfix, so reverse args to get in the correct order.
                 Proposition prop = makeProposition(token, args);
                 stack.push(prop);
             } else if (token.equals("true")) {
@@ -132,20 +145,20 @@ public class Parser {
         return prop;
     }
 
-    private Proposition makeProposition(String operator, Proposition... props) throws ParsingException {
+    private Proposition makeProposition(String operator, List<Proposition> args) throws ParsingException {
         switch (operator) {
         case "and":
-            return new And(props[0], props[1]);
+            return new And(args.get(0), args.get(1));
         case "or":
-            return new Or(props[0], props[1]);
+            return new Or(args.get(0), args.get(1));
         case "not":
-            return new Not(props[0]);
+            return new Not(args.get(0));
         case "xor":
-            return new Xor(props[0], props[1]);
+            return new Xor(args.get(0), args.get(1));
         case "eq":
-            return new Equals(props[0], props[1]);
+            return new Equals(args.get(0), args.get(1));
         case "implies":
-            return new Imply(props[0], props[1]);
+            return new Imply(args.get(0), args.get(1));
         default:
             throw new ParsingException("Unknown operator \"" + operator + "\"");
         }

@@ -38,5 +38,12 @@ public class Equals implements Proposition {
     public String toString() {
         return "(eq " + this.left + " " + this.right + ")";
     }
+
+	@Override
+	public Proposition negationNormalForm(Environment env) {
+		Proposition left = this.left.negationNormalForm(env);
+		Proposition right = this.right.negationNormalForm(env);
+		return new Equals(left, right).solve(env);
+	}
     
 }

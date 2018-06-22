@@ -6,5 +6,6 @@ public interface Proposition {
 
     public Proposition solve(Environment env);
     public boolean isLiteral();
+	public Proposition negationNormalForm(Environment env);
     
 }
