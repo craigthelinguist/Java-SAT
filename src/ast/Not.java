@@ -1,5 +1,6 @@
 package ast;
 
+import repl.Utils.Pair;
 import semantics.Environment;
 
 public class Not implements Proposition {
@@ -62,5 +63,5 @@ public class Not implements Proposition {
 		return new Not(prop);
 		
 	}
-   
+
 }

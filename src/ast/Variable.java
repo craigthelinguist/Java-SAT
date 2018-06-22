@@ -1,5 +1,6 @@
 package ast;
 
+import repl.Utils.Pair;
 import semantics.Environment;
 
 public class Variable implements Proposition {

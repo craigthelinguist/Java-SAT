@@ -1,16 +1,11 @@
 package repl;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Stack;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import ast.And;
 import ast.Constant;
@@ -24,6 +19,7 @@ import ast.Xor;
 import exceptions.ParsingException;
 import imperatives.Forget;
 import imperatives.Imperative;
+import imperatives.IsHorn;
 import imperatives.Let;
 import imperatives.NegationNormalForm;
 import imperatives.Print;
@@ -56,6 +52,7 @@ public class Parser {
 
     public Imperative parseImperative() throws ParsingException {
         if (scan.hasNext("forget")) return parseForget();
+        else if (scan.hasNext("ishorn")) return parseIsHorn();
         else if (scan.hasNext("let")) return parseLet();
         else if (scan.hasNext("nnf")) return parseNNF();
         else if (scan.hasNext("print")) return parsePrint();
@@ -63,7 +60,14 @@ public class Parser {
         else return new Print(parseProposition());
     }
 
-    private Imperative parseNNF() throws ParsingException {
+    private Imperative parseIsHorn() throws ParsingException {
+    	if (!gobble("ishorn")) 
+    		fail("IsHorn imperative must start with \"ishorn\".");
+    	Proposition prop = parseProposition();
+    	return new IsHorn(prop);
+	}
+
+	private Imperative parseNNF() throws ParsingException {
     	if (!gobble("nnf"))
     		fail("NegationNormalForm imperative must start with \"nnf\".");
     	Proposition prop = parseProposition();

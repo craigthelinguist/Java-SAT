@@ -9,6 +9,18 @@ import exceptions.ParsingException;
 
 public class Utils {
     
+	public static class Pair<T> {
+		
+		public final T first;
+		public final T second;
+		
+		public Pair(T first, T second) {
+			this.first = first;
+			this.second = second;
+		}
+		
+	}
+	
     /**
      * Return a Matcher object wrapped around the given string which spits out the tokens as they appear.
      * @param input: string to read.

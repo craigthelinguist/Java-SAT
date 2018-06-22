@@ -1,5 +1,6 @@
 package ast;
 
+import repl.Utils.Pair;
 import semantics.Environment;
 
 public class Or implements Proposition {
@@ -16,7 +17,7 @@ public class Or implements Proposition {
     	Proposition left = this.left.solve(env);
     	Proposition right = this.right.solve(env);
     	if (left.equals(Constant.True()) || right.equals(Constant.True())) {
-    		return Constant.True();
+    		return Constant.True(); 
     	} else if (left.equals(Constant.False()) && right.equals(Constant.False())) {
     		return Constant.False();
     	} else {

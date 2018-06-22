@@ -1,5 +1,6 @@
 package ast;
 
+import repl.Utils.Pair;
 import semantics.Environment;
 
 public class Constant implements Proposition {
@@ -50,5 +51,5 @@ public class Constant implements Proposition {
 	public Proposition negationNormalForm(Environment env) {
 		return this;
 	}
-    
+
 }

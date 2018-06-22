@@ -1,5 +1,6 @@
 package ast;
 
+import repl.Utils.Pair;
 import semantics.Environment;
 
 public class And implements Proposition {
@@ -48,5 +49,5 @@ public class And implements Proposition {
 	public Proposition getRight() {
 		return this.right;
 	}
-	
+
 }

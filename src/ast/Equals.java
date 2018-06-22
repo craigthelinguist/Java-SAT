@@ -1,5 +1,6 @@
 package ast;
 
+import repl.Utils.Pair;
 import semantics.Environment;
 
 public class Equals implements Proposition {
@@ -45,5 +46,5 @@ public class Equals implements Proposition {
 		Proposition right = this.right.negationNormalForm(env);
 		return new Equals(left, right).solve(env);
 	}
-    
+
 }
