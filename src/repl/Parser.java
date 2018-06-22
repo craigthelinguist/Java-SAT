@@ -20,6 +20,7 @@ import ast.Variable;
 import ast.Xor;
 import exceptions.ParsingException;
 import imperatives.Imperative;
+import imperatives.Let;
 import imperatives.Print;
 import imperatives.Solve;
 
@@ -49,28 +50,46 @@ public class Parser {
     }
 
     public Imperative parseImperative() throws ParsingException {
-        if (scan.hasNext("solve"))
-            return parseSolve();
-        else if (scan.hasNext("print"))
-            return parsePrint();
-        else
-            return new Print(parseProposition());
+        if (scan.hasNext("solve")) return parseSolve();
+        else if (scan.hasNext("print")) return parsePrint();
+        else if (scan.hasNext("let")) return parseLet();
+        else return new Print(parseProposition());
     }
 
     private Solve parseSolve() throws ParsingException {
         if (!gobble("solve"))
-            fail("Solve imperative must start with \"solve\"");
+            fail("Solve imperative must start with \"solve\".");
         Proposition prop = parseProposition();
         return new Solve(prop);
     }
 
     private Print parsePrint() throws ParsingException {
         if (!gobble("print"))
-            fail("Print imperative must start with \"print\"");
+            fail("Print imperative must start with \"print\".");
         Proposition prop = parseProposition();
         return new Print(prop);
     }
+    
+    private Let parseLet() throws ParsingException {
+    	if (!gobble("let"))
+    		fail("Let imperative must start with \"let\".");
+    	String name = parseIdentifier();
+    	if (!gobble("="))
+    		fail("Let imperative must have `=` separating `let` and the definition.");
+    	Proposition prop = parseProposition();
+    	return new Let(name, prop);
+    }
 
+    private String parseIdentifier() throws ParsingException {
+    	String next = scan.next();
+    	for (char ch: next.toCharArray()) {
+    		if (!Character.isLetter(ch)) {
+    			throw new ParsingException("Identifiers can only have letters.");
+    		}
+    	}
+    	return next;
+    }
+    
     private Proposition parseProposition() throws ParsingException {
         String string = scan.nextLine();
         ShuntingYard shuntingYard = new ShuntingYard(Utils.TokenRegex(), Utils.PrecedenceMap());

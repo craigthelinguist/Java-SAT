@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ast.Proposition;
+import ast.Variable;
 
 public class Environment {
 
@@ -15,6 +16,10 @@ public class Environment {
 
     public boolean exists (String name) {
         return variables.containsKey(name);
+    }
+    
+    public Proposition getVar(Variable var) {
+    	return variables.get(var.toString());
     }
 
     public Proposition getVar (String name) {
