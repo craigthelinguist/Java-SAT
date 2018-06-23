@@ -9,8 +9,11 @@ public class REPL {
     
     private static final String HELP =
             "Commands:\n"
+    		+ "cnf PROPOSITION\n"
     		+ "forget VARIABLE\n"
+    		+ "ishorn PROPOSITION\n"
             + "let VARIABLE = VALUE\n"
+    		+ "nnf PROPOSITION\n"
             + "print PROPOSITION\n"
             + "solve PROPOSITION\n";
 

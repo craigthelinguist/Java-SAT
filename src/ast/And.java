@@ -50,4 +50,11 @@ public class And implements Proposition {
 		return this.right;
 	}
 
+	@Override
+	public Proposition conjunctiveNormalForm(Environment env) {
+		Proposition left = this.left.conjunctiveNormalForm(env);
+		Proposition right = this.right.conjunctiveNormalForm(env);
+		return new And(left, right).solve(env);
+	}
+
 }

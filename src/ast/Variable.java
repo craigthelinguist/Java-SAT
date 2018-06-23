@@ -46,4 +46,13 @@ public class Variable implements Proposition {
 		}
 	}
 
+	@Override
+	public Proposition conjunctiveNormalForm(Environment env) {
+		if (env.exists(this)) {
+			return env.getVar(this).conjunctiveNormalForm(env);
+		} else {
+			return this;
+		}
+	}
+
 }

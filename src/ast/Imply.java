@@ -31,9 +31,14 @@ public class Imply implements Proposition {
 	public Proposition negationNormalForm(Environment env) {
 		return this.asOr().negationNormalForm(env);
 	}
-	
+
+	@Override
+	public Proposition conjunctiveNormalForm(Environment env) {
+		return this.asOr().conjunctiveNormalForm(env);
+	}
+
 	private Proposition asOr() {
 		return new Or(new Not(this.left), this.right);
 	}
-
+	
 }

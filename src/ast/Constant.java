@@ -52,4 +52,9 @@ public class Constant implements Proposition {
 		return this;
 	}
 
+	@Override
+	public Proposition conjunctiveNormalForm(Environment env) {
+		return this;
+	}
+
 }

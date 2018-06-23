@@ -42,9 +42,16 @@ public class Equals implements Proposition {
 
 	@Override
 	public Proposition negationNormalForm(Environment env) {
-		Proposition left = this.left.negationNormalForm(env);
-		Proposition right = this.right.negationNormalForm(env);
-		return new Equals(left, right).solve(env);
+		return this.asDoubleImplication().negationNormalForm(env);
+	}
+	
+	@Override
+	public Proposition conjunctiveNormalForm(Environment env) {
+		return this.asDoubleImplication().conjunctiveNormalForm(env);
 	}
 
+	private Proposition asDoubleImplication() {
+		return new And(new Imply(left, right), new Imply(right, left));
+	}
+	
 }
