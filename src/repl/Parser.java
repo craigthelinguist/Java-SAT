@@ -78,14 +78,14 @@ public class Parser {
     	return new DisjunctiveNormalForm(prop);
     }
     
-    private Imperative parseIsHorn() throws ParsingException {
+    private IsHorn parseIsHorn() throws ParsingException {
     	if (!gobble("ishorn")) 
     		fail("IsHorn imperative must start with \"ishorn\".");
     	Proposition prop = parseProposition();
     	return new IsHorn(prop);
 	}
 
-	private Imperative parseNNF() throws ParsingException {
+	private NegationNormalForm parseNNF() throws ParsingException {
     	if (!gobble("nnf"))
     		fail("NegationNormalForm imperative must start with \"nnf\".");
     	Proposition prop = parseProposition();
