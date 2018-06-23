@@ -10,6 +10,7 @@ public class REPL {
     private static final String HELP =
             "Commands:\n"
     		+ "cnf PROPOSITION\n"
+            + "dnf PROPOSITION\n"
     		+ "forget VARIABLE\n"
     		+ "ishorn PROPOSITION\n"
             + "let VARIABLE = VALUE\n"

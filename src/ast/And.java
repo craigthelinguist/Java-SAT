@@ -56,5 +56,26 @@ public class And implements Proposition {
 		Proposition right = this.right.conjunctiveNormalForm(env);
 		return new And(left, right).solve(env);
 	}
+	
+	@Override
+	public Proposition disjunctiveNormalForm(Environment env) {
+		Proposition left = this.left.disjunctiveNormalForm(env);
+		Proposition right = this.right.disjunctiveNormalForm(env);
+		
+		// Distribute conjunctions over disjunctions. In the case where both arguments are disjunctions, it
+		// doesn't matter which one we distribute over, we'll get the same result.
+		if (left instanceof Or) {
+			Or or = (Or) left;
+			return new Or(new And(or.getLeft(), right), new And(or.getRight(), right))
+					.disjunctiveNormalForm(env);
+		} else if (right instanceof Or) {
+			Or or = (Or) right;
+			return new Or(new And(left, or.getLeft()), new Or(left, or.getRight()))
+					.disjunctiveNormalForm(env);
+		} else {
+			return new And(left, right).solve(env);
+		}
+	}
+
 
 }

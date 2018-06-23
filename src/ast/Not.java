@@ -94,4 +94,34 @@ public class Not implements Proposition {
 		return new Not(prop);
 	}
 
+	@Override
+	public Proposition disjunctiveNormalForm(Environment env) {
+		
+		Proposition prop = this.prop.disjunctiveNormalForm(env);
+		
+		// Double negation.
+		if (prop instanceof Not) {
+			Not not = (Not) prop;
+			return not.prop.disjunctiveNormalForm(env);
+		}
+		
+		// DeMorgan's law 1.
+		if (prop instanceof Or) {
+			Or or = (Or) prop;
+			Proposition left = new Not(or.getLeft()).disjunctiveNormalForm(env);
+			Proposition right = new Not(or.getRight()).disjunctiveNormalForm(env);
+			return new And(left, right).disjunctiveNormalForm(env);
+		}
+		
+		// DeMorgan's law 2.
+		if (prop instanceof And) {
+			And and = (And) prop;
+			Proposition left = new Not(and.getLeft()).disjunctiveNormalForm(env);
+			Proposition right = new Not(and.getRight()).disjunctiveNormalForm(env);
+			return new Or(left, right).disjunctiveNormalForm(env);
+		}
+		
+		return new Not(prop);
+	}
+
 }

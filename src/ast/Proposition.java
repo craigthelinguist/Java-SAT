@@ -11,6 +11,7 @@ public interface Proposition {
     public boolean isLiteral();
 	public Proposition negationNormalForm(Environment env);
 	public Proposition conjunctiveNormalForm(Environment env);
+	public Proposition disjunctiveNormalForm(Environment env);
 	
 	default public boolean isHornClause(Environment env) {
 		

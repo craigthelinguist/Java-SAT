@@ -51,6 +51,11 @@ public class Xor implements Proposition {
 		return this.asOr().conjunctiveNormalForm(env);
 	}
 
+	@Override
+	public Proposition disjunctiveNormalForm(Environment env) {
+		return this.asOr().disjunctiveNormalForm(env);
+	}
+	
 	private Proposition asOr() {
 		return new Or(new And(left, new Not(right)), new And(new Not(left), right));
 	}

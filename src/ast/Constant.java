@@ -57,4 +57,9 @@ public class Constant implements Proposition {
 		return this;
 	}
 
+	@Override
+	public Proposition disjunctiveNormalForm(Environment env) {
+		return this;
+	}
+	
 }

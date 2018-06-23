@@ -18,6 +18,7 @@ import ast.Variable;
 import ast.Xor;
 import exceptions.ParsingException;
 import imperatives.ConjunctiveNormalForm;
+import imperatives.DisjunctiveNormalForm;
 import imperatives.Forget;
 import imperatives.Imperative;
 import imperatives.IsHorn;
@@ -53,6 +54,7 @@ public class Parser {
 
     public Imperative parseImperative() throws ParsingException {
     	if (scan.hasNext("cnf")) return parseCNF();
+    	else if (scan.hasNext("dnf")) return parseDNF();
     	else if (scan.hasNext("forget")) return parseForget();
         else if (scan.hasNext("ishorn")) return parseIsHorn();
         else if (scan.hasNext("let")) return parseLet();
@@ -62,11 +64,18 @@ public class Parser {
         else return new Print(parseProposition());
     }
 
-    private Imperative parseCNF() throws ParsingException {
+    private ConjunctiveNormalForm parseCNF() throws ParsingException {
     	if (!gobble("cnf"))
     		fail("ConjunctiveNormalForm imperative must start with \"cnf\".");
     	Proposition prop = parseProposition();
     	return new ConjunctiveNormalForm(prop);
+    }
+    
+    private DisjunctiveNormalForm parseDNF() throws ParsingException {
+    	if (!gobble("dnf"))
+    		fail("DisjunctiveNormalForm imperative must start with \"dnf\".");
+    	Proposition prop = parseProposition();
+    	return new DisjunctiveNormalForm(prop);
     }
     
     private Imperative parseIsHorn() throws ParsingException {

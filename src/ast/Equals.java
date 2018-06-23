@@ -50,6 +50,11 @@ public class Equals implements Proposition {
 		return this.asDoubleImplication().conjunctiveNormalForm(env);
 	}
 
+	@Override
+	public Proposition disjunctiveNormalForm(Environment env) {
+		return this.asDoubleImplication().disjunctiveNormalForm(env);
+	}
+	
 	private Proposition asDoubleImplication() {
 		return new And(new Imply(left, right), new Imply(right, left));
 	}
